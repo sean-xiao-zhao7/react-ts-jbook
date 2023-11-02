@@ -6,10 +6,14 @@ import "./App.css";
 
 const App = () => {
     const initESBW = useCallback(async () => {
-        await esbuild.initialize({
-            wasmURL: "/esbuild.wasm",
-        });
-        transform();
+        try {
+            await esbuild.initialize({
+                wasmURL: "/esbuild.wasm",
+            });
+            transform();
+        } catch (err: any) {
+            console.log(err.message);
+        }
     }, []);
 
     const transform = async () => {
