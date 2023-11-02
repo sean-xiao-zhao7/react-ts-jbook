@@ -16,10 +16,11 @@ const App = () => {
     }, []);
 
     const transform = async () => {
-        let result1 = await esbuild.transform("let test: boolean = true", {
-            loader: "ts",
+        let result1 = await esbuild.transform("<Test>Hi</Test>", {
+            loader: "jsx",
+            target: "es2015",
         });
-        console.log(result1);
+        console.log(result1.code);
     };
 
     useEffect(() => {
