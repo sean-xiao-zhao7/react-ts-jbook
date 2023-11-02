@@ -1,20 +1,18 @@
-import { useEffect, useState } from "react";
 import * as esbuild from "esbuild-wasm";
 
 import logo from "./logo.svg";
 import "./App.css";
+import { useEffect } from "react";
 
 const App = () => {
     useEffect(() => {
-        startService();
-    }, []);
+        initEBW();
+    });
 
-    const startService = async () => {
-        const result = await esbuild.initialize({
+    const initEBW = async () => {
+        await esbuild.initialize({
             wasmURL: "./node_modules/esbuild-wasm/esbuild.wasm",
-            worker: false,
         });
-        return result;
     };
 
     return (
