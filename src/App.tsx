@@ -1,19 +1,27 @@
 import * as esbuild from "esbuild-wasm";
+import { useCallback, useEffect } from "react";
 
 import logo from "./logo.svg";
 import "./App.css";
-import { useEffect } from "react";
 
 const App = () => {
-    useEffect(() => {
-        initEBW();
-    });
-
-    const initEBW = async () => {
+    const initESBW = useCallback(async () => {
         await esbuild.initialize({
-            wasmURL: "./node_modules/esbuild-wasm/esbuild.wasm",
+            wasmURL: "/esbuild.wasm",
         });
+        transform();
+    }, []);
+
+    const transform = async () => {
+        let result1 = await esbuild.transform("let test: boolean = true", {
+            loader: "ts",
+        });
+        console.log(result1);
     };
+
+    useEffect(() => {
+        initESBW();
+    }, [initESBW]);
 
     return (
         <div className="App">
