@@ -1,10 +1,12 @@
 import * as esbuild from "esbuild-wasm";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 
-import logo from "./logo.svg";
 import "./App.css";
 
 const App = () => {
+    const [loading, setLoading] = useState(false);
+    const [transformedCode, setTransformedCode] = useState("");
+
     const initESBW = useCallback(async () => {
         try {
             await esbuild.initialize({
@@ -16,11 +18,13 @@ const App = () => {
     }, []);
 
     const transform = async () => {
+        setLoading(true);
         let result1 = await esbuild.transform("<Test>Hi</Test>", {
             loader: "jsx",
             target: "es2015",
         });
-        console.log(result1.code);
+        setTransformedCode(result1.code);
+        setLoading(false);
     };
 
     useEffect(() => {
@@ -28,13 +32,19 @@ const App = () => {
     }, [initESBW]);
 
     return (
-        <div className="App">
+        <>
             <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                <p>ESBuild Test.</p>
-                <button onClick={transform}>Transform</button>
+                <div className="col">
+                    <h4>Enter code</h4>
+                    <textarea></textarea>
+                </div>
+                <div className="col">
+                    <button onClick={transform}>Transform</button>
+                    {loading && <h4>Transforming</h4>}
+                    {transformedCode && <pre>{transformedCode}</pre>}
+                </div>
             </header>
-        </div>
+        </>
     );
 };
 
