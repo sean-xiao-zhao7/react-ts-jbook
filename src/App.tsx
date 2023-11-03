@@ -5,6 +5,7 @@ import "./App.css";
 
 const App = () => {
     const [loading, setLoading] = useState(false);
+    const [sourceCode, setSourceCode] = useState("");
     const [transformedCode, setTransformedCode] = useState("");
 
     const initESBW = useCallback(async () => {
@@ -19,7 +20,7 @@ const App = () => {
 
     const transform = async () => {
         setLoading(true);
-        let result1 = await esbuild.transform("<Test>Hi</Test>", {
+        let result1 = await esbuild.transform(sourceCode, {
             loader: "jsx",
             target: "es2015",
         });
@@ -35,7 +36,9 @@ const App = () => {
         <div className="cols-container">
             <div className="col">
                 <h4>Enter code</h4>
-                <textarea></textarea>
+                <textarea
+                    onChange={(event) => setSourceCode(event.target.value)}
+                ></textarea>
                 <button onClick={transform}>Transform</button>
             </div>
             <div className="col">
