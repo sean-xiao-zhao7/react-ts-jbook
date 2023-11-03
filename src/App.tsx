@@ -32,19 +32,17 @@ const App = () => {
     }, [initESBW]);
 
     return (
-        <>
-            <header className="App-header">
-                <div className="col">
-                    <h4>Enter code</h4>
-                    <textarea></textarea>
-                </div>
-                <div className="col">
-                    <button onClick={transform}>Transform</button>
-                    {loading && <h4>Transforming</h4>}
-                    {transformedCode && <pre>{transformedCode}</pre>}
-                </div>
-            </header>
-        </>
+        <div className="cols-container">
+            <div className="col">
+                <h4>Enter code</h4>
+                <textarea></textarea>
+                <button onClick={transform}>Transform</button>
+            </div>
+            <div className="col">
+                {loading && <h4>Transforming</h4>}
+                {transformedCode && <pre>{transformedCode}</pre>}
+            </div>
+        </div>
     );
 };
 

@@ -1,10 +1,33 @@
-.App-header {
+.cols-container {
     background-color: #282c34;
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 5rem;
     align-items: center;
     justify-content: center;
-    font-size: calc(10px + 2vmin);
     color: white;
+    padding: 0 20%;
+}
+
+button {
+    display: block;
+    background-color: white;
+    border: 0;
+    padding: 0.5rem 2rem;
+    border-radius: 5px;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+textarea {
+    margin: 1rem 0;
+    width: 100%;
+    height: 10rem;
+}
+
+h4 {
+    margin: 0;
 }
