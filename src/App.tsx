@@ -27,7 +27,7 @@ const App = () => {
             write: false,
             plugins: [unpkgPathPlugin()],
         });
-        // setTransformedCode(result1);
+        setTransformedCode(result1.outputFiles[0].text);
         setLoading(false);
     };
 
