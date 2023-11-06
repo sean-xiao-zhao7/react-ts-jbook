@@ -2,6 +2,7 @@ import * as esbuild from "esbuild-wasm";
 import { useCallback, useEffect, useState } from "react";
 
 import "./App.css";
+import { unpkgPathPlugin } from "./unpkg-plugin";
 
 const App = () => {
     const [loading, setLoading] = useState(false);
@@ -20,11 +21,13 @@ const App = () => {
 
     const transform = async () => {
         setLoading(true);
-        let result1 = await esbuild.transform(sourceCode, {
-            loader: "jsx",
-            target: "es2015",
+        let result1 = await esbuild.build({
+            entryPoints: ["index.js"],
+            bundle: true,
+            write: false,
+            plugins: [unpkgPathPlugin()],
         });
-        setTransformedCode(result1.code);
+        // setTransformedCode(result1);
         setLoading(false);
     };
 
