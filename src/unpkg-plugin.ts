@@ -19,9 +19,14 @@ export const unpkgPathPlugin = () => {
               console.log(message);
             `,
                     };
-                } else {
+                } else if (args.path === "./message") {
                     const result = await axios.get(ba);
                     return { loader: "js", contents: result.data };
+                } else {
+                    return {
+                        loader: "jsx",
+                        contents: 'export default message = "hi"',
+                    };
                 }
             });
         },
