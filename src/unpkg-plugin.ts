@@ -28,12 +28,11 @@ export const unpkgPathPlugin = () => {
             build.onLoad(
                 { filter: /.*/, namespace: "http-url" },
                 async (args: any) => {
-                    console.log(args);
                     if (args.path === "index.js") {
                         return {
                             loader: "jsx",
                             contents: `
-              import message from 'nested-test-pkg';
+              import message from 'react';
               console.log(message);
             `,
                         };
