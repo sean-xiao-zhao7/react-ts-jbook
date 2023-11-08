@@ -6,33 +6,52 @@ export const unpkgPathPlugin = () => {
     return {
         name: "unpkg-path-plugin",
         setup(build: esbuild.PluginBuild) {
-            build.onResolve({ filter: /\.\/.*/ }, async (args: any) => {
+            build.onResolve({ filter: /\.{1,2}\/.*/ }, async (args: any) => {
                 return {
-                    path: new URL(args.path, args.importer + "/").toString(),
+                    path: new URL(
+                        args.path,
+                        args.pluginData.baseUrl + "/"
+                    ).toString(),
                     namespace: "http-url",
                 };
             });
 
             build.onResolve({ filter: /.*/ }, async (args: any) => {
-                if (args.path !== "index.js")
+                let pluginData;
+                if (args.path !== "index.js") {
                     args.path = new URL(args.path, base).toString();
-                return { path: args.path, namespace: "http-url" };
+                    pluginData = { baseImport: true };
+                }
+                return { path: args.path, namespace: "http-url", pluginData };
             });
 
             build.onLoad(
                 { filter: /.*/, namespace: "http-url" },
                 async (args: any) => {
+                    console.log(args);
                     if (args.path === "index.js") {
                         return {
                             loader: "jsx",
                             contents: `
-              import message from 'medium-test-pkg';
+              import message from 'nested-test-pkg';
               console.log(message);
             `,
                         };
                     } else {
                         const result = await axios.get(args.path);
-                        return { loader: "js", contents: result.data };
+                        return {
+                            loader: "js",
+                            contents: result.data,
+                            pluginData:
+                                args.pluginData && args.pluginData.baseImport
+                                    ? {
+                                          baseUrl: result.request.responseURL
+                                              .split("/")
+                                              .slice(0, -1)
+                                              .join("/"),
+                                      }
+                                    : {},
+                        };
                     }
                 }
             );
