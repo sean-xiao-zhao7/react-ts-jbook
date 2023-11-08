@@ -43,9 +43,10 @@ export const unpkgPathPlugin = () => {
                         };
                     } else {
                         let data, responseURL;
-                        const cacheData: any = await unpkgStaticCache.getItem(
-                            args.path
-                        );
+                        const cacheData = await unpkgStaticCache.getItem<{
+                            data: any;
+                            responseURL: string;
+                        }>(args.path);
                         if (cacheData) {
                             data = cacheData.data;
                             responseURL = cacheData.responseURL;
