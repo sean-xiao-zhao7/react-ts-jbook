@@ -3,8 +3,8 @@ import axios from "axios";
 import { base } from "./a";
 import localforage from "localforage";
 
-const localCache = localforage.createInstance({
-    name: "fileCache",
+const unpkgStaticCache = localforage.createInstance({
+    name: "unpkgStaticCache",
 });
 
 export const unpkgPathPlugin = () => {
@@ -42,14 +42,30 @@ export const unpkgPathPlugin = () => {
             `,
                         };
                     } else {
-                        const result = await axios.get(args.path);
+                        let data, responseURL;
+                        const cacheData: any = await unpkgStaticCache.getItem(
+                            args.path
+                        );
+                        if (cacheData) {
+                            data = cacheData.data;
+                            responseURL = cacheData.responseURL;
+                        } else {
+                            const result = await axios.get(args.path);
+                            data = result.data;
+                            responseURL = result.request.responseURL;
+
+                            await unpkgStaticCache.setItem(args.path, {
+                                data,
+                                responseURL,
+                            });
+                        }
                         return {
                             loader: "js",
-                            contents: result.data,
+                            contents: data,
                             pluginData:
                                 args.pluginData && args.pluginData.baseImport
                                     ? {
-                                          baseUrl: result.request.responseURL
+                                          baseUrl: responseURL
                                               .split("/")
                                               .slice(0, -1)
                                               .join("/"),
