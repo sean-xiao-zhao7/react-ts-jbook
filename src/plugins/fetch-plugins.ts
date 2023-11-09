@@ -12,11 +12,19 @@ export const fetchPlugin = (userInput: string) => {
         setup(build: esbuild.PluginBuild) {
             build.onLoad(
                 { filter: /(^index\.js$)/, namespace: "http-url" },
-                async (args: any) => {
+                async () => {
                     return {
-                        loader: args.pluginData.loader
-                            ? args.pluginData.loader
-                            : "jsx",
+                        loader: "jsx",
+                        contents: userInput,
+                    };
+                }
+            );
+
+            build.onLoad(
+                { filter: /(^index\.css$)/, namespace: "http-url" },
+                async () => {
+                    return {
+                        loader: "css",
                         contents: userInput,
                     };
                 }
@@ -81,9 +89,7 @@ export const fetchPlugin = (userInput: string) => {
                         });
                     }
                     return {
-                        loader: args.pluginData.loader
-                            ? args.pluginData.loader
-                            : "js",
+                        loader: "js",
                         contents: data,
                         pluginData:
                             args.pluginData && args.pluginData.baseImport

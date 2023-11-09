@@ -9,6 +9,7 @@ const App = () => {
     const [loading, setLoading] = useState(false);
     const [sourceCode, setSourceCode] = useState("");
     const [transformedCode, setTransformedCode] = useState("");
+    const [loader, setLoader] = useState("js");
 
     const initESBW = useCallback(async () => {
         try {
@@ -23,7 +24,7 @@ const App = () => {
     const transform = async () => {
         setLoading(true);
         let result1 = await esbuild.build({
-            entryPoints: ["index.js"],
+            entryPoints: [`index.${loader}`],
             bundle: true,
             write: false,
             plugins: [unpkgPathPlugin(), fetchPlugin(sourceCode)],
@@ -55,6 +56,17 @@ const App = () => {
                 <textarea
                     onChange={(event) => setSourceCode(event.target.value)}
                 ></textarea>
+                <div>
+                    Type:
+                    <select
+                        onChange={(event) => {
+                            setLoader(event.target.value);
+                        }}
+                    >
+                        <option value="js">JavaScript</option>
+                        <option value="css">CSS</option>
+                    </select>
+                </div>
                 <button onClick={transform}>Transform</button>
             </div>
             <div className="col">

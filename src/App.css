@@ -12,6 +12,9 @@
 
 .col {
     overflow-x: scroll;
+    display: grid;
+    grid-row-gap: 1rem;
+    align-items: center;
 }
 
 button {
@@ -20,6 +23,7 @@ button {
     border: 0;
     padding: 0.5rem 2rem;
     border-radius: 5px;
+    justify-self: left;
 }
 
 button:hover {
@@ -27,7 +31,6 @@ button:hover {
 }
 
 textarea {
-    margin: 1rem 0;
     width: 100%;
     height: 10rem;
     padding: 0.5rem;
