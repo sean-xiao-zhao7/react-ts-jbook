@@ -2,7 +2,8 @@ import * as esbuild from "esbuild-wasm";
 import { useCallback, useEffect, useState } from "react";
 
 import "./App.css";
-import { unpkgPathPlugin } from "./unpkg-plugin";
+import { unpkgPathPlugin } from "./plugins/unpkg-plugin";
+import { fetchPlugin } from "./plugins/fetch-plugins";
 
 const App = () => {
     const [loading, setLoading] = useState(false);
@@ -25,7 +26,7 @@ const App = () => {
             entryPoints: ["index.js"],
             bundle: true,
             write: false,
-            plugins: [unpkgPathPlugin(sourceCode)],
+            plugins: [unpkgPathPlugin(), fetchPlugin(sourceCode)],
         });
         setTransformedCode(result1.outputFiles[0].text);
         setLoading(false);

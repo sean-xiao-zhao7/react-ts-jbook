@@ -1,35 +1,15 @@
 import * as esbuild from "esbuild-wasm";
 import axios from "axios";
-import { base } from "./a";
 import localforage from "localforage";
 
 const unpkgStaticCache = localforage.createInstance({
     name: "unpkgStaticCache",
 });
 
-export const unpkgPathPlugin = (userInput: string) => {
+export const fetchPlugin = (userInput: string) => {
     return {
         name: "unpkg-path-plugin",
         setup(build: esbuild.PluginBuild) {
-            build.onResolve({ filter: /\.{1,2}\/.*/ }, async (args: any) => {
-                return {
-                    path: new URL(
-                        args.path,
-                        args.pluginData.baseUrl + "/"
-                    ).toString(),
-                    namespace: "http-url",
-                };
-            });
-
-            build.onResolve({ filter: /.*/ }, async (args: any) => {
-                let pluginData;
-                if (args.path !== "index.js") {
-                    args.path = new URL(args.path, base).toString();
-                    pluginData = { baseImport: true };
-                }
-                return { path: args.path, namespace: "http-url", pluginData };
-            });
-
             build.onLoad(
                 { filter: /.*/, namespace: "http-url" },
                 async (args: any) => {
