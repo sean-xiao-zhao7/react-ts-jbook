@@ -25,7 +25,7 @@ const App = () => {
             entryPoints: ["index.js"],
             bundle: true,
             write: false,
-            plugins: [unpkgPathPlugin()],
+            plugins: [unpkgPathPlugin(sourceCode)],
         });
         setTransformedCode(result1.outputFiles[0].text);
         setLoading(false);
