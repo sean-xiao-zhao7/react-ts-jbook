@@ -5,6 +5,18 @@ export const unpkgPathPlugin = () => {
     return {
         name: "unpkg-path-plugin",
         setup(build: esbuild.PluginBuild) {
+            build.onResolve({ filter: /^.*\.css$/ }, async (args: any) => {
+                return {
+                    path: new URL(args.path, base).toString(),
+                    namespace: "http-url",
+                    pluginData: {
+                        ...args.pluginData,
+                        loader: "css",
+                        baseImport: true,
+                    },
+                };
+            });
+
             build.onResolve({ filter: /\.{1,2}\/.*/ }, async (args: any) => {
                 return {
                     path: new URL(
@@ -16,7 +28,7 @@ export const unpkgPathPlugin = () => {
             });
 
             build.onResolve({ filter: /.*/ }, async (args: any) => {
-                let pluginData;
+                let pluginData = {};
                 if (args.path !== "index.js") {
                     args.path = new URL(args.path, base).toString();
                     pluginData = { baseImport: true };

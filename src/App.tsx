@@ -27,8 +27,20 @@ const App = () => {
             bundle: true,
             write: false,
             plugins: [unpkgPathPlugin(), fetchPlugin(sourceCode)],
+            outfile: "out.js",
         });
-        setTransformedCode(result1.outputFiles[0].text);
+
+        if (result1.outputFiles.length > 1) {
+            let combinedText = "";
+            for (const outputFile of result1.outputFiles) {
+                combinedText += "----\n";
+                combinedText += outputFile.text;
+            }
+            setTransformedCode(combinedText);
+        } else {
+            setTransformedCode(result1.outputFiles[0].text);
+        }
+
         setLoading(false);
     };
 
