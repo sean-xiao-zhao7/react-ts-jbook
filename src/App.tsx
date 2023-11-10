@@ -49,6 +49,12 @@ const App = () => {
         initESBW();
     }, [initESBW]);
 
+    const execCode = `
+    <script>
+        ${transformedCode}
+    </script>
+    `;
+
     return (
         <div className="cols-container">
             <div className="col">
@@ -69,9 +75,12 @@ const App = () => {
                 </div>
                 <button onClick={transform}>Transform</button>
             </div>
-            <div className="col">
+            {/* <div className="col">
                 {loading && <h4>Transforming</h4>}
                 {transformedCode && <pre>{transformedCode}</pre>}
+            </div> */}
+            <div className="col" style={{ backgroundColor: "white" }}>
+                <iframe srcDoc={execCode} sandbox="" id="codeIframe"></iframe>
             </div>
         </div>
     );
