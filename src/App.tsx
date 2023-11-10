@@ -75,12 +75,14 @@ const App = () => {
                 </div>
                 <button onClick={transform}>Transform</button>
             </div>
-            {/* <div className="col">
+            <div className="col">
                 {loading && <h4>Transforming</h4>}
                 {transformedCode && <pre>{transformedCode}</pre>}
-            </div> */}
-            <div className="col" style={{ backgroundColor: "white" }}>
-                <iframe srcDoc={execCode} sandbox="" id="codeIframe"></iframe>
+                <iframe
+                    srcDoc={execCode}
+                    sandbox="allow-scripts"
+                    id="codeIframe"
+                ></iframe>
             </div>
         </div>
     );
