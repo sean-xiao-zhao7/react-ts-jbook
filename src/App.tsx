@@ -1,5 +1,6 @@
 import * as esbuild from "esbuild-wasm";
 import { useCallback, useEffect, useRef, useState } from "react";
+import Editor from "@monaco-editor/react";
 
 import "./App.css";
 import { unpkgPathPlugin } from "./plugins/unpkg-plugin";
@@ -8,7 +9,6 @@ import { fetchPlugin } from "./plugins/fetch-plugins";
 const App = () => {
     const [loading, setLoading] = useState(false);
     const [sourceCode, setSourceCode] = useState("");
-    const [transformedCode, setTransformedCode] = useState("");
     const [loader, setLoader] = useState("js");
     const iframeRef = useRef<any>();
 
@@ -42,7 +42,7 @@ const App = () => {
         // } else {
         //     setTransformedCode(result1.outputFiles[0].text);
         // }
-
+        iframeRef.current.srcdoc = execCode;
         iframeRef.current.contentWindow.postMessage(
             result1.outputFiles[0].text,
             "*"
@@ -97,7 +97,6 @@ const App = () => {
             </div>
             <div className="col" style={{ backgroundColor: "white" }}>
                 {loading && <h4>Transforming</h4>}
-                {transformedCode && <pre>{transformedCode}</pre>}
                 <iframe
                     ref={iframeRef}
                     srcDoc={execCode}
