@@ -86,6 +86,10 @@ const App = () => {
                     onChange={(value, event) =>
                         setSourceCode(value ? value : "")
                     }
+                    theme="vs-dark"
+                    options={{
+                        wordWrap: "on",
+                    }}
                 />
                 <div>
                     Type:
