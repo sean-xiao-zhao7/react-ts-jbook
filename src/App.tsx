@@ -1,5 +1,5 @@
 import * as esbuild from "esbuild-wasm";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import "./App.css";
 import { unpkgPathPlugin } from "./plugins/unpkg-plugin";
@@ -10,6 +10,7 @@ const App = () => {
     const [sourceCode, setSourceCode] = useState("");
     const [transformedCode, setTransformedCode] = useState("");
     const [loader, setLoader] = useState("js");
+    const iframeRef = useRef<any>();
 
     const initESBW = useCallback(async () => {
         try {
@@ -50,9 +51,15 @@ const App = () => {
     }, [initESBW]);
 
     const execCode = `
-    <script>
-        ${transformedCode}
-    </script>
+    <html>
+        <head></head>
+        <body>
+            <div id="root"></div>
+            <script>
+                window.addEventListener('message', (event) => {}, false);
+            </script>
+        </body>
+    </html>
     `;
 
     return (
@@ -79,9 +86,11 @@ const App = () => {
                 {loading && <h4>Transforming</h4>}
                 {transformedCode && <pre>{transformedCode}</pre>}
                 <iframe
+                    ref={iframeRef}
                     srcDoc={execCode}
                     sandbox="allow-scripts"
                     id="codeIframe"
+                    title="codeIframe"
                 ></iframe>
             </div>
         </div>
