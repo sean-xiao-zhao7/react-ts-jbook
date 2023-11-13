@@ -65,9 +65,9 @@ const App = () => {
                     try {
                         eval(event.data)
                     } catch (err) {                        
-                        const root = document.querySelector('#root');
-                        root.setAttribute('style', 'color: red');
-                        root.innerHTML = "Error: " + err.message + '.';
+                        const root = document.querySelector('#root');                        
+                        root.innerHTML = '<p style="color: red;">' + err + '.</p>';
+                        console.error(err);
                     }
                 }, false);
             </script>
