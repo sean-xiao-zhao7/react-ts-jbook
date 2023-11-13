@@ -110,7 +110,12 @@ const App = () => {
                         <option value="css">CSS</option>
                     </select>
                 </div>
-                <button onClick={transform}>Transform</button>
+                <button
+                    onClick={transform}
+                    className="button button-format is-primary"
+                >
+                    Transform
+                </button>
             </div>
             <div className="col" style={{ backgroundColor: "white" }}>
                 {loading && <h4>Transforming</h4>}
