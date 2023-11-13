@@ -83,6 +83,9 @@ const App = () => {
                     height="40vh"
                     defaultLanguage="javascript"
                     defaultValue=""
+                    onChange={(value, event) =>
+                        setSourceCode(value ? value : "")
+                    }
                 />
                 <div>
                     Type:
