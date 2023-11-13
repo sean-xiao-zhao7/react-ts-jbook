@@ -32,16 +32,21 @@ const App = () => {
             outfile: "out.js",
         });
 
-        if (result1.outputFiles.length > 1) {
-            let combinedText = "";
-            for (const outputFile of result1.outputFiles) {
-                combinedText += "----\n";
-                combinedText += outputFile.text;
-            }
-            setTransformedCode(combinedText);
-        } else {
-            setTransformedCode(result1.outputFiles[0].text);
-        }
+        // if (result1.outputFiles.length > 1) {
+        //     let combinedText = "";
+        //     for (const outputFile of result1.outputFiles) {
+        //         combinedText += "----\n";
+        //         combinedText += outputFile.text;
+        //     }
+        //     setTransformedCode(combinedText);
+        // } else {
+        //     setTransformedCode(result1.outputFiles[0].text);
+        // }
+
+        iframeRef.current.contentWindow.postMessage(
+            result1.outputFiles[0].text,
+            "*"
+        );
 
         setLoading(false);
     };
@@ -56,7 +61,9 @@ const App = () => {
         <body>
             <div id="root"></div>
             <script>
-                window.addEventListener('message', (event) => {}, false);
+                window.addEventListener('message', (event) => {
+                    console.log(event)
+                }, false);
             </script>
         </body>
     </html>
