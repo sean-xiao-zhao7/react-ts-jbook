@@ -79,9 +79,11 @@ const App = () => {
         <div className="cols-container">
             <div className="col">
                 <h4>Enter code</h4>
-                <textarea
-                    onChange={(event) => setSourceCode(event.target.value)}
-                ></textarea>
+                <Editor
+                    height="40vh"
+                    defaultLanguage="javascript"
+                    defaultValue=""
+                />
                 <div>
                     Type:
                     <select
