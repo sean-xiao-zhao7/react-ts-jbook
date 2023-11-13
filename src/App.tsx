@@ -89,7 +89,7 @@ const App = () => {
                 </div>
                 <button onClick={transform}>Transform</button>
             </div>
-            <div className="col">
+            <div className="col" style={{ backgroundColor: "white" }}>
                 {loading && <h4>Transforming</h4>}
                 {transformedCode && <pre>{transformedCode}</pre>}
                 <iframe
