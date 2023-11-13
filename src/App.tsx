@@ -1,6 +1,7 @@
 import * as esbuild from "esbuild-wasm";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Editor from "@monaco-editor/react";
+import "../node_modules/bulmaswatch/superhero/bulmaswatch.min.css";
 
 import "./App.css";
 import { unpkgPathPlugin } from "./plugins/unpkg-plugin";

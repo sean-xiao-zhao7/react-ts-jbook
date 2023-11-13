@@ -12,6 +12,7 @@
     "@types/react": "^18.2.33",
     "@types/react-dom": "^18.2.14",
     "axios": "^1.6.0",
+    "bulmaswatch": "^0.8.1",
     "esbuild-wasm": "0.19.5",
     "localforage": "^1.10.0",
     "node-polyfill-webpack-plugin": "^2.0.1",
