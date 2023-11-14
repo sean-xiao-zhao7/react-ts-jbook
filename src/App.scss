@@ -1,6 +1,7 @@
+@import 'styles/variables/colors';
+
 .cols-container {
-    background-color: #282c34;
-    min-height: 100vh;
+    background-color: $main-color;
     display: grid;
     grid-template-columns: repeat(2, 50%);
     column-gap: 2rem;
@@ -8,6 +9,7 @@
     justify-content: center;
     color: white;
     padding: 2rem;
+    border-bottom: solid 1px $secondary-color;
 }
 
 .col {
