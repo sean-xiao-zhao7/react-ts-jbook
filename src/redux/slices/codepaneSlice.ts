@@ -7,8 +7,10 @@ export const codepaneSlice = createSlice({
     },
     reducers: {
         addPane: (state) => {},
+        removePane: (state) => {},
+        addBundle: (state, action) => {},
     },
 });
 
-export const { addPane } = codepaneSlice.actions;
+export const { addPane, removePane, addBundle } = codepaneSlice.actions;
 export default codepaneSlice.reducer;
