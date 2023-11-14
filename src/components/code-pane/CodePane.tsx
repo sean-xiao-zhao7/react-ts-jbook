@@ -27,7 +27,7 @@ const CodePane = () => {
             <div className="col">
                 <h4>Enter code</h4>
                 <Editor
-                    height="40vh"
+                    height={"20rem"}
                     defaultLanguage="javascript"
                     defaultValue=""
                     onChange={(value, event) =>

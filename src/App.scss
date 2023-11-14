@@ -1,4 +1,6 @@
 @import 'styles/variables/colors';
+// component styles
+@import 'components/code-pane/styles/codepane';
 
 .cols-container {
     background-color: $main-color;
@@ -8,7 +10,7 @@
     align-items: center;
     justify-content: center;
     color: white;
-    padding: 2rem;
+    padding: 1.5rem 3rem;
     border-bottom: solid 1px $secondary-color;
 }
 

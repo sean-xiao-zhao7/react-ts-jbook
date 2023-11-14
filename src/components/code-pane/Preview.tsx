@@ -39,7 +39,7 @@ const Preview = ({ esbuildResult, loading }: PreviewProps) => {
     }, [esbuildResult, execCode]);
 
     return (
-        <div className="col" style={{ backgroundColor: "white" }}>
+        <div className="col">
             {loading && <h4>Transforming</h4>}
             <iframe
                 ref={iframeRef}
