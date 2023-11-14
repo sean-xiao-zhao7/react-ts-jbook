@@ -1,10 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-
-// esbuild
-import * as esbuild from "esbuild-wasm";
-// esbuild plugins
-import { unpkgPathPlugin } from "./plugins/unpkg-plugin";
-import { fetchPlugin } from "./plugins/fetch-plugins";
+import { useCallback, useEffect, useState } from "react";
 
 // monaco
 import Editor from "@monaco-editor/react";
@@ -20,6 +14,7 @@ const App = () => {
     const [sourceCode, setSourceCode] = useState("");
     const [loader, setLoader] = useState("js");
     const [loading, setLoading] = useState(false);
+    const [esbuildResult, setEsbuildResult] = useState();
 
     const transform = async () => {
         setLoading(true);
@@ -30,6 +25,7 @@ const App = () => {
             plugins: [unpkgPathPlugin(), fetchPlugin(sourceCode)],
             outfile: "out.js",
         });
+        setEsbuildResult(result1);
 
         // if (result1.outputFiles.length > 1) {
         //     let combinedText = "";
@@ -41,16 +37,9 @@ const App = () => {
         // } else {
         //     setTransformedCode(result1.outputFiles[0].text);
         // }
-        iframeRef.current.srcdoc = execCode;
-        iframeRef.current.contentWindow.postMessage(
-            result1.outputFiles[0].text,
-            "*"
-        );
 
         setLoading(false);
     };
-
-    const iframeRef = useRef<any>();
 
     const initESBW = useCallback(async () => {
         try {
@@ -65,26 +54,6 @@ const App = () => {
     useEffect(() => {
         initESBW();
     }, [initESBW]);
-
-    const execCode = `
-    <html>
-        <head></head>
-        <body>
-            <div id="root"></div>
-            <script>
-                window.addEventListener('message', (event) => {
-                    try {
-                        eval(event.data)
-                    } catch (err) {                        
-                        const root = document.querySelector('#root');                        
-                        root.innerHTML = '<p style="color: red;">' + err + '.</p>';
-                        console.error(err);
-                    }
-                }, false);
-            </script>
-        </body>
-    </html>
-    `;
 
     return (
         <div className="cols-container">
@@ -127,11 +96,7 @@ const App = () => {
                     Transform
                 </button>
             </div>
-            <Preview
-                loading={loading}
-                iframeRef={iframeRef}
-                execCode={execCode}
-            />
+            <Preview loading={loading} esbuildResult={esbuildResult} />
         </div>
     );
 };
