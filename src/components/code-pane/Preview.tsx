@@ -10,15 +10,24 @@ const Preview = ({ esbuildResult, loading }: PreviewProps) => {
 
     const execCode = `
     <html>
-        <head></head>
+        <head>
+            <title>Code Pane</title>
+            <style>
+                body {
+                    color: white;
+                    background-color: #444f66;
+                    padding: 1rem;
+                }
+            </style>
+        </head>
         <body>
             <div id="root"></div>
-            <script>
+            <script>                                
                 window.addEventListener('message', (event) => {
                     const root = document.querySelector('#root'); 
                     try {
                         eval(event.data)
-                        root.innerHTML = '<p>' + event.data + '.</p>';
+                        root.innerHTML = event.data;
                     } catch (err) {                        
                         root.innerHTML = '<p style="color: red;">' + err + '.</p>';
                         console.error(err);
