@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 
 // monaco
 import Editor from "@monaco-editor/react";
@@ -9,51 +9,20 @@ import "./App.css";
 
 // components
 import Preview from "./components/Preview";
+import ESBuildService from "./bundler/index";
 
 const App = () => {
     const [sourceCode, setSourceCode] = useState("");
     const [loader, setLoader] = useState("js");
     const [loading, setLoading] = useState(false);
-    const [esbuildResult, setEsbuildResult] = useState();
+    const [esbuildResult, setEsbuildResult] = useState<any | undefined>();
 
-    const transform = async () => {
+    const invokeESBuild = async () => {
         setLoading(true);
-        let result1 = await esbuild.build({
-            entryPoints: [`index.${loader}`],
-            bundle: true,
-            write: false,
-            plugins: [unpkgPathPlugin(), fetchPlugin(sourceCode)],
-            outfile: "out.js",
-        });
-        setEsbuildResult(result1);
-
-        // if (result1.outputFiles.length > 1) {
-        //     let combinedText = "";
-        //     for (const outputFile of result1.outputFiles) {
-        //         combinedText += "----\n";
-        //         combinedText += outputFile.text;
-        //     }
-        //     setTransformedCode(combinedText);
-        // } else {
-        //     setTransformedCode(result1.outputFiles[0].text);
-        // }
-
+        const result = await ESBuildService(sourceCode, loader);
+        setEsbuildResult(result);
         setLoading(false);
     };
-
-    const initESBW = useCallback(async () => {
-        try {
-            await esbuild.initialize({
-                wasmURL: "/esbuild.wasm",
-            });
-        } catch (err: any) {
-            console.log(err.message);
-        }
-    }, []);
-
-    useEffect(() => {
-        initESBW();
-    }, [initESBW]);
 
     return (
         <div className="cols-container">
@@ -90,7 +59,7 @@ const App = () => {
                     </select>
                 </div>
                 <button
-                    onClick={transform}
+                    onClick={invokeESBuild}
                     className="button button-format is-primary"
                 >
                     Transform

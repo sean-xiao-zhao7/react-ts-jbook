@@ -29,12 +29,14 @@ const Preview = ({ esbuildResult, loading }: PreviewProps) => {
     `;
 
     useEffect(() => {
-        iframeRef.current.srcdoc = execCode;
-        iframeRef.current.contentWindow.postMessage(
-            esbuildResult.outputFiles[0].text,
-            "*"
-        );
-    }, []);
+        if (esbuildResult) {
+            iframeRef.current.srcdoc = execCode;
+            iframeRef.current.contentWindow.postMessage(
+                esbuildResult.outputFiles[0].text,
+                "*"
+            );
+        }
+    }, [esbuildResult, execCode]);
 
     return (
         <div className="col" style={{ backgroundColor: "white" }}>
