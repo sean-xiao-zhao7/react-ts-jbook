@@ -1,9 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+interface codepaneState {
+    panes: any[];
+    error: string;
+}
+
 export const codepaneSlice = createSlice({
     name: "codepane",
-    initialState: {
+    initialState: <codepaneState>{
         panes: [],
+        error: "",
     },
     reducers: {
         addPane: (state) => {},
