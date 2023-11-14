@@ -9,7 +9,7 @@ import "./App.css";
 
 // components
 import Preview from "./components/Preview";
-import ESBuildService from "./bundler/index";
+import ESBuildService from "./bundler/ESBuildService";
 
 const App = () => {
     const [sourceCode, setSourceCode] = useState("");
