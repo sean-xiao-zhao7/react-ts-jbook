@@ -1,5 +1,5 @@
 import * as esbuild from "esbuild-wasm";
-import { base } from "../a";
+import { base } from "../../a";
 
 export const unpkgPathPlugin = () => {
     return {
