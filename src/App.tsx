@@ -1,80 +1,16 @@
-import * as esbuild from "esbuild-wasm";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import Editor from "@monaco-editor/react";
-import "../node_modules/bulmaswatch/superhero/bulmaswatch.min.css";
 
+// CSS
+import "../node_modules/bulmaswatch/superhero/bulmaswatch.min.css";
 import "./App.css";
-import { unpkgPathPlugin } from "./plugins/unpkg-plugin";
-import { fetchPlugin } from "./plugins/fetch-plugins";
+
+// components
+import Preview from "./components/Preview";
 
 const App = () => {
-    const [loading, setLoading] = useState(false);
     const [sourceCode, setSourceCode] = useState("");
     const [loader, setLoader] = useState("js");
-    const iframeRef = useRef<any>();
-
-    const initESBW = useCallback(async () => {
-        try {
-            await esbuild.initialize({
-                wasmURL: "/esbuild.wasm",
-            });
-        } catch (err: any) {
-            console.log(err.message);
-        }
-    }, []);
-
-    const transform = async () => {
-        setLoading(true);
-        let result1 = await esbuild.build({
-            entryPoints: [`index.${loader}`],
-            bundle: true,
-            write: false,
-            plugins: [unpkgPathPlugin(), fetchPlugin(sourceCode)],
-            outfile: "out.js",
-        });
-
-        // if (result1.outputFiles.length > 1) {
-        //     let combinedText = "";
-        //     for (const outputFile of result1.outputFiles) {
-        //         combinedText += "----\n";
-        //         combinedText += outputFile.text;
-        //     }
-        //     setTransformedCode(combinedText);
-        // } else {
-        //     setTransformedCode(result1.outputFiles[0].text);
-        // }
-        iframeRef.current.srcdoc = execCode;
-        iframeRef.current.contentWindow.postMessage(
-            result1.outputFiles[0].text,
-            "*"
-        );
-
-        setLoading(false);
-    };
-
-    useEffect(() => {
-        initESBW();
-    }, [initESBW]);
-
-    const execCode = `
-    <html>
-        <head></head>
-        <body>
-            <div id="root"></div>
-            <script>
-                window.addEventListener('message', (event) => {
-                    try {
-                        eval(event.data)
-                    } catch (err) {                        
-                        const root = document.querySelector('#root');                        
-                        root.innerHTML = '<p style="color: red;">' + err + '.</p>';
-                        console.error(err);
-                    }
-                }, false);
-            </script>
-        </body>
-    </html>
-    `;
 
     return (
         <div className="cols-container">
@@ -117,16 +53,7 @@ const App = () => {
                     Transform
                 </button>
             </div>
-            <div className="col" style={{ backgroundColor: "white" }}>
-                {loading && <h4>Transforming</h4>}
-                <iframe
-                    ref={iframeRef}
-                    srcDoc={execCode}
-                    sandbox="allow-scripts"
-                    id="codeIframe"
-                    title="codeIframe"
-                ></iframe>
-            </div>
+            <Preview loader={loader} sourceCode={sourceCode} />
         </div>
     );
 };
