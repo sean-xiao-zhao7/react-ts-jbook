@@ -29,7 +29,7 @@ const Preview = ({ esbuildResult, loading }: PreviewProps) => {
                         eval(event.data)
                         root.innerHTML = event.data;
                     } catch (err) {                        
-                        root.innerHTML = '<p style="color: red;">' + err + '.</p>';
+                        root.innerHTML = err + '.';
                         console.error(err);
                     }
                 }, false);
@@ -48,8 +48,8 @@ const Preview = ({ esbuildResult, loading }: PreviewProps) => {
     }, [esbuildResult, execCode]);
 
     return (
-        <div className="col">
-            {loading && <h4>Transforming</h4>}
+        <div className="col preview">
+            {loading && <h1>Bundling...</h1>}
             <iframe
                 ref={iframeRef}
                 srcDoc={execCode}

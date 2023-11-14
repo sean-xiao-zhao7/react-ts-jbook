@@ -1,8 +1,17 @@
 .col {
     height: 30rem;
+    overflow-x: scroll;
+    display: grid;
+    grid-row-gap: 1rem;
+    align-items: center;
 
     iframe {
         height: 100%;
         width: 100%;
+    }
+
+    &.preview {
+        background-color: $secondary-color;
+        text-align: center;
     }
 }

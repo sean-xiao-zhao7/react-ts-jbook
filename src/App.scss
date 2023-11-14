@@ -15,13 +15,6 @@
     border-bottom: solid 1px $secondary-color;
 }
 
-.col {
-    overflow-x: scroll;
-    display: grid;
-    grid-row-gap: 1rem;
-    align-items: center;
-}
-
 button {
     display: block;
     background-color: white;
