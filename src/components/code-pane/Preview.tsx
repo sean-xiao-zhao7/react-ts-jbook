@@ -15,10 +15,11 @@ const Preview = ({ esbuildResult, loading }: PreviewProps) => {
             <div id="root"></div>
             <script>
                 window.addEventListener('message', (event) => {
+                    const root = document.querySelector('#root'); 
                     try {
                         eval(event.data)
+                        root.innerHTML = '<p>' + event.data + '.</p>';
                     } catch (err) {                        
-                        const root = document.querySelector('#root');                        
                         root.innerHTML = '<p style="color: red;">' + err + '.</p>';
                         console.error(err);
                     }
@@ -30,7 +31,6 @@ const Preview = ({ esbuildResult, loading }: PreviewProps) => {
 
     useEffect(() => {
         if (esbuildResult) {
-            iframeRef.current.srcdoc = execCode;
             iframeRef.current.contentWindow.postMessage(
                 esbuildResult.outputFiles[0].text,
                 "*"
