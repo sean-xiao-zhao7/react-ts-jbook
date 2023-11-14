@@ -9,7 +9,11 @@ import Editor from "@monaco-editor/react";
 // components
 import Preview from "./Preview";
 
-const CodePane = () => {
+interface props {
+    title?: string;
+}
+
+const CodePane = ({ title }: props) => {
     const [sourceCode, setSourceCode] = useState("");
     const [loader, setLoader] = useState("js");
     const [loading, setLoading] = useState(false);
@@ -25,7 +29,7 @@ const CodePane = () => {
     return (
         <div className="cols-container code-pane">
             <div className="col">
-                <h4>Enter code</h4>
+                <h4>{title || "Enter code"}</h4>
                 <Editor
                     height={"20rem"}
                     defaultLanguage="javascript"

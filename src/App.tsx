@@ -8,8 +8,8 @@ import CodePane from "./components/code-pane/CodePane";
 const App = () => {
     return (
         <>
-            <CodePane />
-            <CodePane />
+            <CodePane title="Code editor #1" />
+            <CodePane title="Code editor #2" />
         </>
     );
 };
